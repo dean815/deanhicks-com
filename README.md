@@ -13,6 +13,7 @@ webfont, which is what keeps that true.
 |---|---|
 | `index.html` | The entire site — content, semantics, and `Person` structured data |
 | `styles.css` | Design tokens, layout, dark mode, print |
+| `resume.pdf` | Downloadable CV, linked from the header |
 | `CNAME` | Binds the custom domain for GitHub Pages |
 
 ## Design
