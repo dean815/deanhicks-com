@@ -145,10 +145,26 @@ a:focus-visible {
    ========================================================================== */
 
 @media print {
+  /* Take control of the page box. Without this the result depends on whatever
+     margin the user's print dialog defaults to — Chrome's default pushed the
+     Education section onto a near-empty third sheet, while "Minimum" margins
+     fit 2 pages. Declaring it here makes the page count a property of the
+     stylesheet rather than of a setting nobody thinks to change. */
+  @page {
+    size: Letter;
+    margin: 0.45in 0.5in;
+  }
+
   :root {
     --bg: #ffffff; --surface: #ffffff;
     --text: #000000; --text-muted: #333333;
     --accent: #000000; --rule: #cccccc;
+
+    /* Body drops to 10.5pt below, so the heading steps must come down with it
+       or the scale silently stretches on paper — headings ended up ~14% larger
+       relative to body than on screen. */
+    --step-1: 1.1rem;
+    --step-2: 1.3rem;
 
     /* Screen spacing tokens are tuned for scrolling, not paper — tighten the
        larger steps so 5 roles, 2 projects, 31 skills, and education fit in
@@ -164,11 +180,18 @@ a:focus-visible {
     --space-8: 1rem;
   }
 
+  /* Sized against measurement, not taste. At 10.5pt/1.3 the content came to
+     1935px against 1938px of usable space across two Letter pages — a 3px
+     margin. Because .role carries break-inside: avoid, any role that does not
+     fit gets pushed whole to the next page, and with no slack to absorb that
+     push the document spilled onto a third, near-empty sheet. 10pt/1.25 buys
+     roughly 150px of headroom, which is what keeps it at two pages.
+     10pt is the floor — below that it stops being comfortably readable. */
   body.page {
     max-width: none;
     padding: 0;
-    font-size: 10.5pt;
-    line-height: 1.3;
+    font-size: 10pt;
+    line-height: 1.25;
   }
 
   a { text-decoration: none; }
@@ -196,6 +219,10 @@ a:focus-visible {
      reintroduce break-inside on .skills__group or .section. */
   .skills__label { break-after: avoid; }
 
+  /* Hide the whole <li>, not just the <a>. Hiding only the anchor leaves a
+     zero-width flex item behind, which still emits the container's gap — a
+     stray 8px after "NYC" on paper. */
+  .masthead__contact li:has(a[href$=".pdf"]) { display: none; }
   .masthead__contact a[href$=".pdf"] { display: none; }
 
   /* Flatten skill chips for print: a grid of bordered boxes is wasteful and
