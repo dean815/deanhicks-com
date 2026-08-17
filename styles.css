@@ -219,6 +219,13 @@ a:focus-visible {
      reintroduce break-inside on .skills__group or .section. */
   .skills__label { break-after: avoid; }
 
+  /* Content the site carries but the CV does not. Printing is meant to produce
+     the resume, so anything marked .site-only stays on screen: it keeps the
+     printed document matching the CV, and keeps the page count at 2 — adding
+     one entry took raw content from 1820px to 1927px against 1938px of usable
+     space, which break-inside: avoid then spilled onto a third sheet. */
+  .site-only { display: none; }
+
   /* Hide the whole <li>, not just the <a>. Hiding only the anchor leaves a
      zero-width flex item behind, which still emits the container's gap — a
      stray 8px after "NYC" on paper. */
