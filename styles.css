@@ -1,43 +1,86 @@
 /* ==========================================================================
-   Design tokens — mirrored into the Claude Design design-system project.
-   Change values here; design-system/ previews import this same file.
+   deanhicks.com — "slate terminal"
+
+   Monospace carries the structure (name, labels, dates, chips); a reading
+   serif carries the prose. That split is the whole idea: the mono signals
+   what the work is, and the serif keeps five roles' worth of bullets
+   comfortable to actually read.
+
+   Both faces are served from fonts/ rather than a CDN, so the page still
+   makes zero external requests.
+   ========================================================================== */
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("fonts/jetbrains-mono-latin.woff2") format("woff2");
+  font-weight: 400 700;          /* variable — one file covers the range */
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+                 U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2212, U+FEFF;
+}
+@font-face {
+  font-family: "Newsreader";
+  src: url("fonts/newsreader-latin.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+                 U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2212, U+FEFF;
+}
+
+/* ==========================================================================
+   Tokens
+
+   Dark is the design; light is its pairing, not an inversion — a flipped
+   dark palette goes muddy. The accent in particular is re-derived rather
+   than reused: #7fb3c8 measures 1.4:1 on the light ground, so light mode
+   uses #1f6076 at 6.4:1. Every text/background pair in both palettes was
+   computed against the WCAG AA 4.5:1 floor, not eyeballed.
    ========================================================================== */
 
 :root {
-  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-               "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --font-read: "Newsreader", Georgia, "Times New Roman", serif;
 
-  --step--1: 0.833rem;   /* dates, meta */
-  --step-0:  1rem;       /* body */
-  --step-1:  1.25rem;    /* role titles */
-  --step-2:  1.563rem;   /* section headings */
-  --step-3:  clamp(2rem, 1.4rem + 2.4vw, 2.75rem);  /* name */
+  --step--1: 0.75rem;    /* section labels, skills labels */
+  --step-0:  0.8125rem;  /* mono body: metadata, chips, dates */
+  --step-1:  0.9375rem;  /* role org */
+  --step-2:  1.0625rem;  /* serif prose */
+  --step-3:  1.25rem;    /* summary */
+  --step-4:  clamp(1.45rem, 1.1rem + 1.7vw, 2.1rem);  /* name */
 
-  --leading-tight: 1.25;
-  --leading-body:  1.6;
+  --space-1: 0.35rem;  --space-2: 0.5rem;   --space-3: 0.65rem;
+  --space-4: 0.85rem;  --space-5: 1.35rem;  --space-6: 1.5rem;
+  --space-7: 2.25rem;  --space-8: 3rem;
 
-  --space-1: 0.25rem;  --space-2: 0.5rem;  --space-3: 0.75rem;
-  --space-4: 1rem;     --space-5: 1.5rem;  --space-6: 2rem;
-  --space-7: 3rem;     --space-8: 4rem;
+  --measure: 52rem;
 
-  --measure: 46rem;
-
-  --bg:         #fdfdfc;
-  --surface:    #f5f5f3;
-  --text:       #1a1a18;
-  --text-muted: #55554f;
-  --accent:     #1b4d3e;
-  --rule:       #e0e0da;
+  /* Light is the base, dark is the override — and that ordering is
+     deliberate, not a demotion of the dark design. Per spec,
+     `prefers-color-scheme: light` also matches when a visitor has
+     expressed no preference at all, so a dark `:root` with a light
+     media query would leave the :root values almost never used and the
+     cascade lying about what actually renders. Net behaviour either
+     way: OS set to dark gets the slate, everyone else gets the paper. */
+  --bg:     #f2f4f6;
+  --panel:  #e6eaee;
+  --text:   #2b3138;   /* 11.9:1 */
+  --hi:     #10151b;   /* 16.6:1 */
+  --dim:    #5c656e;   /*  5.4:1 */
+  --accent: #1f6076;   /*  6.4:1 */
+  --line:   #d5dbe1;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg:         #16161a;
-    --surface:    #1e1e23;
-    --text:       #eeeeec;
-    --text-muted: #a8a8a2;
-    --accent:     #7dd3b0;
-    --rule:       #2e2e35;
+    --bg:     #14161a;
+    --panel:  #1c2027;
+    --text:   #cfd5dc;  /* 12.3:1 */
+    --hi:     #f4f7fa;  /* 16.9:1 */
+    --dim:    #7d8794;  /*  5.0:1 */
+    --accent: #7fb3c8;  /*  7.9:1 */
+    --line:   #262c34;
   }
 }
 
@@ -53,87 +96,120 @@ html { -webkit-text-size-adjust: 100%; }
 body.page {
   background: var(--bg);
   color: var(--text);
-  font-family: var(--font-sans);
+  font-family: var(--font-mono);
   font-size: var(--step-0);
-  line-height: var(--leading-body);
-  max-width: var(--measure);
-  margin-inline: auto;
-  padding: var(--space-7) var(--space-5) var(--space-8);
+  line-height: 1.85;
+  padding: clamp(2rem, 4vw, 3.5rem) clamp(1.25rem, 4vw, 3rem);
 }
 
-a { color: var(--accent); text-underline-offset: 0.15em; }
+/* The column is centred inside a full-bleed ground. Without this the text
+   wraps at its measure while the background runs the full window, and the
+   page reads as content stranded in an empty box. */
+main {
+  max-width: var(--measure);
+  margin-inline: auto;
+}
+
+a { color: var(--accent); text-underline-offset: 0.2em; }
 a:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
   border-radius: 2px;
 }
 
-.masthead { margin-bottom: var(--space-7); }
+.masthead { margin-bottom: var(--space-8); }
 .masthead__name {
-  font-size: var(--step-3);
-  line-height: var(--leading-tight);
-  letter-spacing: -0.02em;
+  font-size: var(--step-4);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--hi);
+  line-height: 1.25;
 }
-.masthead__title { font-size: var(--step-1); color: var(--text-muted); }
+.masthead__title { margin-top: var(--space-1); color: var(--accent); }
 .masthead__contact {
-  display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4);
-  margin-top: var(--space-4); font-size: var(--step--1);
+  display: flex; flex-wrap: wrap;
+  gap: var(--space-1) var(--space-6);
+  margin-top: 1.1rem;
+  color: var(--dim);
 }
 
-.section { margin-bottom: var(--space-7); }
+.section { margin-bottom: 2.75rem; }
+.section:last-child { margin-bottom: 0; }
 .section__heading {
-  font-size: var(--step-2);
-  line-height: var(--leading-tight);
-  padding-bottom: var(--space-2);
-  border-bottom: 1px solid var(--rule);
-  margin-bottom: var(--space-5);
-}
-
-.role { margin-bottom: var(--space-6); }
-.role__org   { font-size: var(--step-1); line-height: var(--leading-tight); }
-.role__title { color: var(--text-muted); }
-.role__dates { font-size: var(--step--1); color: var(--text-muted); }
-.role__bullets { margin-top: var(--space-3); }
-.role__bullets li {
-  position: relative;
-  padding-left: var(--space-4);
-  margin-bottom: var(--space-2);
-}
-.role__bullets li::before {
-  content: "";
-  position: absolute; left: 0; top: 0.65em;
-  width: 4px; height: 4px; border-radius: 50%;
-  background: var(--accent);
-}
-.role > p { margin-top: var(--space-3); }
-
-.skills__group { margin-bottom: var(--space-4); }
-.skills__label {
   font-size: var(--step--1);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--text-muted);
-  margin-bottom: var(--space-1);
+  letter-spacing: 0.1em;
+  font-weight: 500;
+  color: var(--accent);
+  border-top: 1px solid var(--line);
+  padding-top: var(--space-6);
+  margin-bottom: var(--space-5);
 }
-.skills__items {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
+.section__heading::before { content: "[ "; color: var(--dim); }
+.section__heading::after  { content: " ]"; color: var(--dim); }
+
+.role { margin-bottom: var(--space-7); }
+.role:last-child { margin-bottom: 0; }
+.role__org { font-size: var(--step-1); font-weight: 700; color: var(--hi); }
+.role__title { color: var(--dim); }
+.role__dates { color: var(--accent); font-variant-numeric: tabular-nums; }
+
+.role__bullets {
+  margin-top: var(--space-4);
+  display: flex; flex-direction: column; gap: var(--space-3);
 }
-.skills__items li {
-  background: var(--surface);
-  border: 1px solid var(--rule);
-  color: var(--text);
-  padding: var(--space-1) var(--space-3);
-  border-radius: 4px;
+.role__bullets li {
+  position: relative;
+  padding-left: 1.4rem;
+  max-width: 68ch;
+}
+.role__bullets li::before {
+  content: "\2013";
+  position: absolute; left: 0; top: 0.05em;
+  color: var(--accent);
+  font-family: var(--font-mono);
+}
+.role > p { margin-top: var(--space-4); max-width: 68ch; }
+
+/* Prose takes the reading face; every structural element stays mono. */
+#summary-h + p,
+.role__bullets li,
+.role > p {
+  font-family: var(--font-read);
+  font-size: var(--step-2);
+  line-height: 1.62;
+}
+#summary-h + p {
+  font-size: var(--step-3);
+  line-height: 1.5;
+  color: var(--hi);
+  max-width: 62ch;
 }
 
-@media (min-width: 40rem) {
+.skills__group { margin-bottom: var(--space-5); }
+.skills__group:last-child { margin-bottom: 0; }
+.skills__label {
+  font-size: var(--step--1);
+  color: var(--dim);
+  letter-spacing: 0.02em;
+  text-transform: lowercase;
+  margin-bottom: var(--space-2);
+}
+.skills__label::before { content: "# "; }
+.skills__items { display: flex; flex-wrap: wrap; gap: var(--space-1); }
+.skills__items li {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--text);
+  padding: 0.15rem 0.65rem;
+}
+
+@media (min-width: 46rem) {
   .role__header {
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: baseline;
-    column-gap: var(--space-4);
+    column-gap: var(--space-6);
   }
   .role__org   { grid-column: 1; }
   .role__title { grid-column: 1; }
@@ -142,103 +218,96 @@ a:focus-visible {
 
 /* ==========================================================================
    Print
+
+   The printed CV is a different artefact with a different job, so it drops
+   the slate entirely: black on white, two sheets. The screen design still
+   shows through in the type — mono for labels and dates, Newsreader for
+   prose — which keeps the two recognisably the same document.
    ========================================================================== */
 
 @media print {
-  /* Take control of the page box. Without this the result depends on whatever
-     margin the user's print dialog defaults to — Chrome's default pushed the
-     Education section onto a near-empty third sheet, while "Minimum" margins
-     fit 2 pages. Declaring it here makes the page count a property of the
-     stylesheet rather than of a setting nobody thinks to change. */
+  /* Own the page box. Left to the dialog's default, Chrome pushed Education
+     onto a near-empty third sheet while "Minimum" margins fit two. Declaring
+     it here makes the page count a property of this file rather than of a
+     setting nobody thinks to change. */
   @page {
     size: Letter;
     margin: 0.45in 0.5in;
   }
 
   :root {
-    --bg: #ffffff; --surface: #ffffff;
-    --text: #000000; --text-muted: #333333;
-    --accent: #000000; --rule: #cccccc;
-
-    /* Body drops to 10.5pt below, so the heading steps must come down with it
-       or the scale silently stretches on paper — headings ended up ~14% larger
-       relative to body than on screen. */
-    --step-1: 1.1rem;
-    --step-2: 1.3rem;
-
-    /* Screen spacing tokens are tuned for scrolling, not paper — tighten the
-       larger steps so 5 roles, 2 projects, 31 skills, and education fit in
-       2 pages. Also drop the name size: --step-3's clamp() targets viewport
-       width, which reads oversized against a fixed Letter page. */
-    --step-3: 1.9rem;
-    --space-2: 0.35rem;
-    --space-3: 0.5rem;
-    --space-4: 0.5rem;
-    --space-5: 0.6rem;
-    --space-6: 0.65rem;
-    --space-7: 0.85rem;
-    --space-8: 1rem;
+    --bg: #ffffff; --panel: #ffffff;
+    --text: #000000; --hi: #000000; --dim: #333333;
+    --accent: #000000; --line: #cccccc;
   }
 
-  /* Sized against measurement, not taste. At 10.5pt/1.3 the content came to
-     1935px against 1938px of usable space across two Letter pages — a 3px
-     margin. Because .role carries break-inside: avoid, any role that does not
-     fit gets pushed whole to the next page, and with no slack to absorb that
-     push the document spilled onto a third, near-empty sheet. 10pt/1.25 buys
-     roughly 150px of headroom, which is what keeps it at two pages.
-     10pt is the floor — below that it stops being comfortably readable. */
+  /* Sized against measurement. The screen's 1.85 line height is tuned for
+     scrolling and is far too loose for paper; these values are what keep
+     the document at two sheets with slack to spare. */
   body.page {
     max-width: none;
     padding: 0;
-    font-size: 10pt;
-    line-height: 1.25;
+    font-size: 9pt;
+    line-height: 1.3;
   }
+  main { max-width: none; }
+
+  .masthead { margin-bottom: 0.85rem; }
+  .masthead__name { font-size: 1.6rem; letter-spacing: 0.01em; }
+  .masthead__contact { margin-top: 0.5rem; gap: 0.2rem 1rem; }
+  .section { margin-bottom: 0.9rem; }
+  .section__heading { padding-top: 0.5rem; margin-bottom: 0.5rem; font-size: 0.7rem; }
+  .role { margin-bottom: 0.7rem; }
+  .role__bullets { margin-top: 0.35rem; gap: 0.2rem; }
+  .role > p { margin-top: 0.35rem; }
+  .skills__group { margin-bottom: 0.4rem; }
+
+  #summary-h + p, .role__bullets li, .role > p {
+    font-size: 10pt;
+    line-height: 1.35;
+    max-width: none;
+  }
+  #summary-h + p { font-size: 10.5pt; }
+  .role__bullets li { max-width: none; }
 
   a { text-decoration: none; }
   /* Expose destinations that are otherwise lost on paper, but not for
      mailto: or in-page anchors, where the visible text is already the target. */
   a[href^="http"]::after {
     content: " (" attr(href) ")";
-    font-size: 9pt;
-    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 7.5pt;
+    color: var(--dim);
     word-break: break-all;
   }
 
-  /* .section is deliberately excluded here: Experience alone (5 roles) runs
-     ~970px, under one page's usable height, so break-inside:avoid on the
-     whole section pushed it entirely onto a fresh page rather than letting
-     it start filling the space left on page 1 — the actual defect that blew
-     the page count out. Keeping it scoped to .role avoids splitting a single
-     role's bullets across a boundary, which is the split worth avoiding. */
+  /* .section is deliberately excluded: Experience alone runs under one page's
+     usable height, so break-inside:avoid on the whole section pushed it onto
+     a fresh page rather than letting it start filling page 1 — the defect
+     that blew the page count out. Scoped to .role, it still prevents a single
+     role's bullets splitting across a boundary, which is the split worth
+     avoiding. */
   .role { break-inside: avoid; }
   .section__heading { break-after: avoid; }
-  /* Narrow replacement for the protection .section used to give the four
-     Skills sub-headings by accident: without this, a page boundary can land
-     between a .skills__label (e.g. "Tools and Platforms") and its own
-     .skills__items list. Heading-to-list adjacency only — does not
-     reintroduce break-inside on .skills__group or .section. */
+  /* Narrow replacement for the protection .section used to give the Skills
+     sub-headings by accident: without this a page boundary can land between
+     a .skills__label and its own list. */
   .skills__label { break-after: avoid; }
 
-  /* Content the site carries but the CV does not. Printing is meant to produce
-     the resume, so anything marked .site-only stays on screen: it keeps the
-     printed document matching the CV, and keeps the page count at 2 — adding
-     one entry took raw content from 1820px to 1927px against 1938px of usable
-     space, which break-inside: avoid then spilled onto a third sheet. */
+  /* Content the site carries but the CV does not. Printing produces the
+     résumé, so anything marked .site-only stays on screen — that keeps the
+     printed document matching the CV. */
   .site-only { display: none; }
 
   /* Hide the whole <li>, not just the <a>. Hiding only the anchor leaves a
      zero-width flex item behind, which still emits the container's gap — a
-     stray 8px after "NYC" on paper. */
+     stray space after "NYC" on paper. */
   .masthead__contact li:has(a[href$=".pdf"]) { display: none; }
   .masthead__contact a[href$=".pdf"] { display: none; }
 
-  /* Flatten skill chips for print: a grid of bordered boxes is wasteful and
-     ugly on paper. Fall back to an inline list separated by a middle dot;
-     :not(:last-child) keeps the last item in each group from getting a
-     dangling trailing separator. */
-  .skills__items {
-    display: block;
-  }
+  /* Flatten the chips: a grid of bordered boxes is wasteful and ugly on
+     paper. Fall back to an inline list separated by a middle dot. */
+  .skills__items { display: block; }
   .skills__items li {
     display: inline;
     background: none;
@@ -247,6 +316,6 @@ a:focus-visible {
   }
   .skills__items li:not(:last-child)::after {
     content: " · ";
-    color: var(--text-muted);
+    color: var(--dim);
   }
 }
