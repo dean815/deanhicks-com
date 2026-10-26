@@ -120,8 +120,13 @@
     // keep their toolbar, whose page-number and search fields need focus to
     // type into, so there the frame keeps focus and Esc closes the dialog
     // only while focus is outside the PDF. navigator.userAgentData exists in
-    // Chromium browsers only, which is exactly the set that honours toolbar=0.
-    var toolbarHidden = 'userAgentData' in navigator;
+    // Chromium browsers only (and only in secure contexts, which this site
+    // always is). Edge is excluded: its Adobe-based viewer may keep its own
+    // controls despite toolbar=0, and losing Esc-after-click there is the
+    // cheaper failure than stealing focus from a field someone is typing in.
+    var brands = (navigator.userAgentData && navigator.userAgentData.brands) || [];
+    var toolbarHidden = brands.some(function (b) { return b.brand === 'Chromium'; }) &&
+                        !brands.some(function (b) { return b.brand === 'Microsoft Edge'; });
     window.addEventListener('blur', function () {
       if (toolbarHidden && dialog.open && document.activeElement === frame) {
         setTimeout(function () { if (dialog.open) dialog.focus(); }, 0);
