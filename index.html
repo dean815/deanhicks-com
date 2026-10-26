@@ -35,36 +35,29 @@
   </script>
 </head>
 <body class="page">
-  <main class="card">
-    <header class="card__head">
-      <img class="card__photo" src="headshot.jpg" width="469" height="469" alt="Dean Hicks">
-      <h1 class="card__name">Dean Hicks</h1>
-      <p class="card__line">Developer relations &amp; technical solutions, formerly Google and Looker</p>
+  <main class="split">
+    <img class="split__photo" src="headshot.jpg" width="469" height="469" alt="Dean Hicks">
+
+    <header class="split__id">
+      <h1 class="split__name">Dean Hicks</h1>
+      <p class="split__line">Developer relations &amp; technical solutions, formerly Google and Looker</p>
     </header>
 
-    <!-- A plain link to the PDF by default; the script at the bottom turns it
-         into the overlay only where an embedded PDF renders well. -->
-    <a class="row row--cv" href="resume.pdf" data-cv-open>
-      <span class="row__label">CV</span>
-      <span class="row__detail">PDF · 2 pages</span>
-    </a>
+    <nav class="split__actions" aria-label="Links">
+      <!-- A plain link to the PDF by default; the script at the bottom turns it
+           into the overlay only where an embedded PDF renders well. -->
+      <a class="button" href="resume.pdf" data-cv-open>
+        <span class="button__label">CV</span>
+        <span class="button__detail">PDF · 2 pages</span>
+      </a>
+      <ul role="list" class="split__links">
+        <li><a href="https://www.linkedin.com/in/deanhicks" rel="me">LinkedIn</a></li>
+        <li><a href="mailto:dean.h.hicks@gmail.com">Email</a></li>
+        <li><a href="https://github.com/dean815" rel="me">GitHub</a></li>
+      </ul>
+    </nav>
 
-    <ul role="list" class="rows">
-      <li><a class="row" href="https://www.linkedin.com/in/deanhicks" rel="me">
-        <span class="row__label">LinkedIn</span>
-        <span class="row__detail">/in/deanhicks</span>
-      </a></li>
-      <li><a class="row" href="mailto:dean.h.hicks@gmail.com">
-        <span class="row__label">Email</span>
-        <span class="row__detail">dean.h.hicks@gmail.com</span>
-      </a></li>
-      <li><a class="row" href="https://github.com/dean815" rel="me">
-        <span class="row__label">GitHub</span>
-        <span class="row__detail">dean815</span>
-      </a></li>
-    </ul>
-
-    <p class="pointer"><span class="pointer__prefix">Writing ·</span> <a href="https://docs.cloud.google.com/looker/docs/implementing-row-level-segmentation-in-embeds">Implementing row-level segmentation for embedded Looker content</a></p>
+    <p class="split__writing"><span class="split__k">Writing</span> <a href="https://docs.cloud.google.com/looker/docs/implementing-row-level-segmentation-in-embeds">Implementing row-level segmentation for embedded Looker content</a></p>
   </main>
 
   <!-- CV overlay. The CV link above is a plain link to resume.pdf; the script
