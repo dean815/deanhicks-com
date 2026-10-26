@@ -6,8 +6,8 @@
    what the work is, and the serif keeps five roles' worth of bullets
    comfortable to actually read.
 
-   Both faces are served from fonts/ rather than a CDN, so the page still
-   makes zero external requests.
+   Both faces are served from fonts/ rather than a CDN, so the fonts add no
+   external requests; the only one the page makes is the analytics beacon.
    ========================================================================== */
 
 @font-face {
@@ -214,6 +214,128 @@ a:focus-visible {
   .role__org   { grid-column: 1; }
   .role__title { grid-column: 1; }
   .role__dates { grid-column: 2; grid-row: 1 / span 2; text-align: right; }
+}
+
+/* ==========================================================================
+   Front page
+
+   The masthead carries the photo, the one-line bio and the link row that
+   replaces the Linktree. Everything below it reuses .section and .role, so
+   the work entries read the same way the CV's roles did.
+   ========================================================================== */
+
+.masthead--front {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: var(--space-7);
+  row-gap: var(--space-5);
+  align-items: start;
+}
+.masthead__photo {
+  width: 7.5rem;
+  height: 7.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  background: var(--panel);
+}
+.masthead__bio {
+  font-family: var(--font-read);
+  font-size: var(--step-3);
+  line-height: 1.5;
+  color: var(--hi);
+  max-width: 40ch;
+  margin-top: var(--space-4);
+}
+.masthead__links {
+  margin-top: var(--space-5);
+  font-size: var(--step-1);
+}
+.masthead__links a { color: var(--accent); }
+.masthead__handle { color: var(--dim); font-weight: 400; }
+
+@media (max-width: 45.99rem) {
+  .masthead--front { grid-template-columns: 1fr; }
+  .masthead__photo { width: 5.5rem; height: 5.5rem; }
+}
+
+.role__org a { color: inherit; }
+.role__org a:hover { color: var(--accent); }
+
+.colophon {
+  margin-top: var(--space-8);
+  border-top: 1px solid var(--line);
+  padding-top: var(--space-5);
+  color: var(--dim);
+}
+
+/* ==========================================================================
+   CV dialog
+
+   A native <dialog>, opened with showModal() so the browser handles Esc and
+   makes the rest of the page inert. The PDF frame fills whatever height the
+   viewport gives it; the bar above and the Close button are the only chrome.
+   ========================================================================== */
+
+.cv-dialog {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  width: min(56rem, calc(100vw - 2rem));
+  height: calc(100vh - 2rem);
+  max-height: 72rem;
+  padding: 0;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: var(--step-0);
+  line-height: 1.85;
+}
+.cv-dialog[open] {
+  display: flex;
+  flex-direction: column;
+}
+.cv-dialog::backdrop {
+  background: rgb(0 0 0 / 0.6);
+}
+.cv-dialog:focus { outline: none; }   /* focus parks here after a click in the PDF */
+.cv-dialog__bar {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-6);
+  padding: var(--space-3) var(--space-5);
+  border-bottom: 1px solid var(--line);
+}
+.cv-dialog__title {
+  font-size: var(--step--1);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+}
+.cv-dialog__title::before { content: "[ "; color: var(--dim); }
+.cv-dialog__title::after  { content: " ]"; color: var(--dim); }
+.cv-dialog__frame {
+  flex: 1;
+  width: 100%;
+  border: 0;
+  background: var(--bg);
+}
+.cv-dialog__close {
+  margin-left: auto;
+  font: inherit;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  padding: 0.15rem 0.65rem;
+  cursor: pointer;
+}
+.cv-dialog__close:hover { color: var(--hi); border-color: var(--dim); }
+.cv-dialog__close:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
 /* ==========================================================================

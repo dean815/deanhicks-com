@@ -3,8 +3,8 @@
 Source for my personal resume site.
 
 One HTML file, one stylesheet, two font files. No framework, no build step, no
-package manager, and no external requests — everything the page needs is served
-from this repository.
+package manager. The only external request is the Cloudflare Web Analytics
+beacon; everything else the page needs is served from this repository.
 
 ## Files
 
