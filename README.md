@@ -1,58 +1,66 @@
 # deanhicks.com
 
-Source for my personal resume site.
+Source for my personal front page: who I am, a line on what I do, my CV, and
+the places to find me. It replaces a Linktree.
 
-One HTML file, one stylesheet, two font files. No framework, no build step, no
-package manager. The only external request is the Cloudflare Web Analytics
-beacon; everything else the page needs is served from this repository.
+One HTML file, one stylesheet, one font file, one photo, one PDF. No framework,
+no build step, no package manager. The only external request is the Cloudflare
+Web Analytics beacon; everything else the page needs is served from this
+repository.
 
 ## Files
 
 | | |
 |---|---|
-| `index.html` | The entire site — content, semantics, and `Person` structured data |
-| `styles.css` | Design tokens, layout, light and dark palettes, print |
-| `fonts/` | JetBrains Mono and Newsreader, subset to Latin, plus their OFL licenses |
-| `resume.pdf` | Downloadable CV, linked from the header |
+| `index.html` | The entire site: content, the CV overlay, its script, and `Person` structured data |
+| `styles.css` | Design tokens, layout, light and dark palettes |
+| `fonts/` | Bricolage Grotesque, subset to Latin, plus its OFL license |
+| `headshot.jpg` | The photo, 1086×1448 |
+| `resume.pdf` | The CV, opened in an overlay on desktop and directly on phones |
 | `CNAME` | Binds the custom domain for GitHub Pages |
 
 ## Design
 
-Monospace carries the structure — name, section labels, dates, skill chips —
-and a reading serif carries the prose. The split is the point: the mono says
-what the work is, the serif keeps five roles of bullets comfortable to read.
+Two halves on a wide screen: text on the left, the photo bleeding to the right
+edge. On a phone the photo sits on top and the text stacks under it. One face,
+Bricolage Grotesque, does everything, from the heavy name down to the small
+"Writing" label.
 
-Colour, type scale, and spacing are CSS custom properties defined once in
-`:root`, with a `prefers-color-scheme: dark` block redefining seven colour
-tokens. Restyling is a token change rather than a rewrite.
+Colour and spacing are CSS custom properties defined once in `:root`, with a
+`prefers-color-scheme: dark` block redefining the colour tokens. The palette is
+near-neutral: white paper with near-black ink, inverted in dark mode, and the
+ink itself is the only accent, so the CV button is the one solid block on the
+page. Every text/background pair in both palettes clears the WCAG AA 4.5:1
+floor; the lowest is 5.3:1 in light and 7.3:1 in dark.
 
-The dark palette is the primary design and the light one is its pairing, not an
-inversion — a flipped dark palette goes muddy, and the accent in particular is
-re-derived rather than reused. Every text/background pair in both was computed
-against the WCAG AA 4.5:1 floor; the lowest is 4.97:1.
+## The CV overlay
 
-## Fonts
+The CV button is a plain link to `resume.pdf`. On a desktop browser with an
+inline PDF viewer, a small script upgrades it to a native `<dialog>` that embeds
+the PDF: `showModal()` makes the rest of the page inert and handles Esc, a
+keydown handler keeps Tab inside the dialog, and focus returns to the button on
+close. The PDF frame is kept out of the Tab order because browser PDF viewers
+swallow keystrokes once focused, Esc included; the "Open the PDF" link in the
+dialog's bar is the keyboard route to the full viewer. Phones, tablets and
+browsers without an inline viewer never see the dialog and just get the PDF.
 
-Both faces are self-hosted `.woff2` rather than loaded from a CDN, which is what
-keeps the no-external-requests claim above true. They are variable fonts subset
-to Latin, about 88 KB for the pair. Both are licensed under the SIL Open Font
-License; the license text ships alongside them in `fonts/` as that requires.
+## Font
 
-## Print
-
-`@media print` drops the slate entirely — black on white, flattened skill lists,
-external URLs revealed after their link text — and fits the page onto two
-sheets. The screen design still shows through in the type. Anything marked
-`.site-only` is omitted, so the printed document matches the CV rather than the
-website. Cmd-P produces a usable résumé rather than a screenshot of a web page.
+Bricolage Grotesque is self-hosted as a single variable `.woff2` (weight and
+optical size axes, Latin subset, about 75 KB) rather than loaded from a CDN,
+which is what keeps the external-request count at one. It is licensed under the
+SIL Open Font License; the license text ships alongside it in `fonts/` as that
+requires.
 
 ## Deployment
 
 GitHub Pages serves the repository root from `main`. DNS is at Cloudflare with
-the proxy disabled, so GitHub can issue and renew its own certificate.
+the proxy disabled, so GitHub can issue and renew its own certificate. Web
+Analytics runs in JS Snippet mode for the same reason: with the proxy off,
+Cloudflare cannot inject the beacon itself.
 
 ## Updating
 
-The CV is maintained outside this repo; changes are mirrored into `index.html`
-by hand. There is deliberately no generator — a CV that changes a few times a
-year does not need a build pipeline.
+A new CV is a new `resume.pdf` at the same path; nothing else changes. The
+page's own text is edited in `index.html` by hand. There is deliberately no
+generator.
