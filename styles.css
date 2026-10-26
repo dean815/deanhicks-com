@@ -1,12 +1,13 @@
 /* ==========================================================================
-   deanhicks.com — "slate terminal"
+   deanhicks.com
 
-   Monospace carries the structure (name, labels, dates, chips); a reading
-   serif carries the prose. That split is the whole idea: the mono signals
-   what the work is, and the serif keeps five roles' worth of bullets
-   comfortable to actually read.
+   One face, Bricolage Grotesque, does the whole page: a heavy, wide name,
+   a quiet line under it, and plain links. The photo takes the other half
+   of the viewport. The two earlier faces (JetBrains Mono, Newsreader) are
+   still declared below for the print stylesheet and any old links into
+   the CV markup, but the live page no longer uses them.
 
-   Both faces are served from fonts/ rather than a CDN, so the fonts add no
+   Every face is served from fonts/ rather than a CDN, so the fonts add no
    external requests; the only one the page makes is the analytics beacon.
    ========================================================================== */
 
@@ -28,27 +29,38 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
                  U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2212, U+FEFF;
 }
+@font-face {
+  font-family: "Bricolage Grotesque";
+  src: url("fonts/bricolage-grotesque-latin.woff2") format("woff2");
+  font-weight: 200 800;          /* variable: weight and optical size */
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+                 U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC,
+                 U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 
 /* ==========================================================================
    Tokens
 
-   Dark is the design; light is its pairing, not an inversion — a flipped
-   dark palette goes muddy. The accent in particular is re-derived rather
-   than reused: #7fb3c8 measures 1.4:1 on the light ground, so light mode
-   uses #1f6076 at 6.4:1. Every text/background pair in both palettes was
-   computed against the WCAG AA 4.5:1 floor, not eyeballed.
+   Near-neutral: white paper with near-black ink, and the inverse in dark
+   mode. The accent is the ink itself, so the one filled button on the page
+   is the only solid block. Every text/background pair in both palettes
+   clears the WCAG AA 4.5:1 floor; the lowest is --dim at 5.3:1 (light) and
+   7.3:1 (dark).
    ========================================================================== */
 
 :root {
+  --font-sans: "Bricolage Grotesque", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   --font-read: "Newsreader", Georgia, "Times New Roman", serif;
 
-  --step--1: 0.75rem;    /* section labels, skills labels */
-  --step-0:  0.8125rem;  /* mono body: metadata, chips, dates */
-  --step-1:  0.9375rem;  /* role org */
-  --step-2:  1.0625rem;  /* serif prose */
-  --step-3:  1.25rem;    /* summary */
-  --step-4:  clamp(1.45rem, 1.1rem + 1.7vw, 2.1rem);  /* name */
+  --step--1: 0.75rem;
+  --step-0:  0.8125rem;
+  --step-1:  0.9375rem;
+  --step-2:  1.0625rem;
+  --step-3:  1.25rem;
+  --step-4:  clamp(1.45rem, 1.1rem + 1.7vw, 2.1rem);
 
   --space-1: 0.35rem;  --space-2: 0.5rem;   --space-3: 0.65rem;
   --space-4: 0.85rem;  --space-5: 1.35rem;  --space-6: 1.5rem;
@@ -56,31 +68,27 @@
 
   --measure: 52rem;
 
-  /* Light is the base, dark is the override — and that ordering is
-     deliberate, not a demotion of the dark design. Per spec,
-     `prefers-color-scheme: light` also matches when a visitor has
-     expressed no preference at all, so a dark `:root` with a light
-     media query would leave the :root values almost never used and the
-     cascade lying about what actually renders. Net behaviour either
-     way: OS set to dark gets the slate, everyone else gets the paper. */
-  --bg:     #f2f4f6;
-  --panel:  #e6eaee;
-  --text:   #2b3138;   /* 11.9:1 */
-  --hi:     #10151b;   /* 16.6:1 */
-  --dim:    #5c656e;   /*  5.4:1 */
-  --accent: #1f6076;   /*  6.4:1 */
-  --line:   #d5dbe1;
+  /* Light is the base, dark is the override: `prefers-color-scheme: light`
+     also matches a visitor who has expressed no preference, so this is the
+     ordering that keeps the cascade honest about what renders. */
+  --bg:     #ffffff;
+  --panel:  #f4f4f4;
+  --text:   #333333;   /* 12.6:1 */
+  --hi:     #141414;   /* 18.6:1 */
+  --dim:    #6b6b6b;   /*  5.3:1 */
+  --accent: #141414;
+  --line:   #e3e3e3;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg:     #14161a;
-    --panel:  #1c2027;
-    --text:   #cfd5dc;  /* 12.3:1 */
-    --hi:     #f4f7fa;  /* 16.9:1 */
-    --dim:    #7d8794;  /*  5.0:1 */
-    --accent: #7fb3c8;  /*  7.9:1 */
-    --line:   #262c34;
+    --bg:     #0f0f0f;
+    --panel:  #1a1a1a;
+    --text:   #d4d4d4;  /* 13.6:1 */
+    --hi:     #f5f5f5;  /* 18.0:1 */
+    --dim:    #9a9a9a;  /*  7.3:1 */
+    --accent: #f5f5f5;
+    --line:   #2a2a2a;
   }
 }
 
@@ -96,10 +104,9 @@ html { -webkit-text-size-adjust: 100%; }
 body.page {
   background: var(--bg);
   color: var(--text);
-  font-family: var(--font-mono);
-  font-size: var(--step-0);
-  line-height: 1.85;
-  padding: clamp(2rem, 4vw, 3.5rem) clamp(1.25rem, 4vw, 3rem);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.5;
 }
 
 /* The column is centred inside a full-bleed ground. Without this the text
@@ -219,90 +226,113 @@ a:focus-visible {
 /* ==========================================================================
    Front page
 
-   One narrow centred column: photo, name, a line, then the links as bordered
-   rows. The CV row is the only thing styled as a button; the overlay it opens
-   is below. Nothing here is a section, so the column stays short.
+   Two halves: the text column on the left, the photo bleeding to the edge
+   on the right. The left column is itself three rows (identity, actions,
+   writing); the first row is the one that stretches, so the name sits
+   around the vertical middle on a tall window and the writing line stays
+   pinned near the bottom. On narrow screens the photo moves to the top.
    ========================================================================== */
 
-main.card {
-  max-width: 24rem;
-  margin-inline: auto;
-  padding-top: clamp(0.5rem, 5vh, 3rem);
+main.split {
+  max-width: none;
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr auto auto;
 }
-.card__head {
-  text-align: center;
-  margin-bottom: var(--space-7);
-}
-.card__photo {
+.split__photo {
+  grid-column: 2;
+  grid-row: 1 / span 3;
   display: block;
-  width: 10rem;
-  height: 10rem;
-  margin: 0 auto var(--space-5);
-  border-radius: 0.5rem;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  border: 1px solid var(--line);
   background: var(--panel);
 }
-.card__name {
-  font-size: var(--step-4);
-  font-weight: 400;
-  letter-spacing: 0.02em;
+.split__id {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: end;
+  padding: clamp(2rem, 6vw, 5rem) clamp(1.5rem, 6vw, 5rem) 0;
+}
+.split__name {
+  font-size: clamp(2.4rem, 1.6rem + 3vw, 4.2rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
   color: var(--hi);
-  line-height: 1.25;
+  font-variation-settings: "opsz" 96;
 }
-.card__line {
-  margin: var(--space-2) auto 0;
-  text-wrap: balance;
-  color: var(--accent);
-  line-height: 1.6;
-}
-
-.rows {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-}
-.row {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: var(--space-1) var(--space-5);
-  padding: 0.7rem 0.9rem;
-  border: 1px solid var(--line);
-  background: var(--panel);
-  color: var(--text);
-  text-decoration: none;
-  line-height: 1.5;
-}
-.row:hover { border-color: var(--dim); }
-.row:hover .row__label { color: var(--hi); text-decoration: underline; text-underline-offset: 0.2em; }
-.row__label { color: var(--hi); font-weight: 500; }
-.row__detail { color: var(--dim); font-size: var(--step--1); }
-
-.row--cv {
-  margin-bottom: var(--space-5);
-  padding: 0.9rem 0.9rem;
-  border-color: var(--accent);
-  color: var(--accent);
-}
-.row--cv .row__label { color: var(--accent); font-weight: 700; }
-.row--cv .row__detail { color: var(--accent); opacity: 0.85; }
-.row--cv:hover {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: var(--bg);
-}
-.row--cv:hover .row__label,
-.row--cv:hover .row__detail { color: var(--bg); text-decoration: none; }
-
-.pointer {
-  margin-top: var(--space-7);
-  text-align: center;
+.split__line {
+  margin-top: 1rem;
+  max-width: 30ch;
   color: var(--dim);
-  line-height: 1.7;
+  font-size: 1.1rem;
 }
-.pointer__prefix { color: var(--dim); }
+
+.split__actions {
+  grid-column: 1;
+  grid-row: 2;
+  padding: 2rem clamp(1.5rem, 6vw, 5rem) 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+.button {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  padding: 0.8rem 1.2rem;
+  background: var(--hi);
+  color: var(--bg);
+  font-weight: 500;
+  text-decoration: none;
+}
+.button:hover { background: var(--text); }
+.button__detail { font-size: 0.8rem; opacity: 0.7; }
+.split__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+.split__links a {
+  color: var(--hi);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: var(--hi);
+}
+.split__links a:hover { color: var(--dim); text-decoration-color: var(--dim); }
+
+.split__writing {
+  grid-column: 1;
+  grid-row: 3;
+  align-self: start;
+  padding: 3rem clamp(1.5rem, 6vw, 5rem) clamp(2rem, 6vw, 5rem);
+  font-size: 0.85rem;
+  color: var(--dim);
+}
+.split__k {
+  margin-right: 0.5rem;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+.split__writing a { color: var(--hi); }
+
+@media (max-width: 46rem) {
+  main.split {
+    min-height: 0;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto;
+  }
+  .split__photo  { grid-column: 1; grid-row: 1; height: 42vh; }
+  .split__id     { grid-row: 2; padding-top: 2rem; }
+  .split__actions { grid-row: 3; }
+  .split__writing { grid-row: 4; }
+}
 
 /* ==========================================================================
    CV dialog
@@ -323,9 +353,9 @@ main.card {
   border: 1px solid var(--line);
   background: var(--panel);
   color: var(--text);
-  font-family: var(--font-mono);
-  font-size: var(--step-0);
-  line-height: 1.85;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  line-height: 1.5;
 }
 .cv-dialog[open] {
   display: flex;
@@ -343,14 +373,12 @@ main.card {
   border-bottom: 1px solid var(--line);
 }
 .cv-dialog__title {
-  font-size: var(--step--1);
-  font-weight: 500;
+  font-size: 0.75rem;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--accent);
+  letter-spacing: 0.12em;
+  color: var(--hi);
 }
-.cv-dialog__title::before { content: "[ "; color: var(--dim); }
-.cv-dialog__title::after  { content: " ]"; color: var(--dim); }
 .cv-dialog__frame {
   flex: 1;
   width: 100%;
