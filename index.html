@@ -70,8 +70,10 @@
     </div>
     <!-- tabindex="-1" keeps the frame out of the Tab order: the browser's PDF
          viewer swallows keystrokes once it has focus, Esc included. Keyboard
-         users get the full viewer through "Open the PDF" instead. -->
-    <iframe class="cv-dialog__frame" title="Dean Hicks CV (PDF)" data-src="resume.pdf#view=FitH" tabindex="-1"></iframe>
+         users get the full viewer through "Open the PDF" instead. toolbar=0
+         hides Chromium's viewer toolbar (page number, zoom, search) so nothing
+         inside the frame needs sustained focus; Firefox and Safari ignore it. -->
+    <iframe class="cv-dialog__frame" title="Dean Hicks CV (PDF)" data-src="resume.pdf#toolbar=0&view=FitH" tabindex="-1"></iframe>
   </dialog>
 
   <script>
@@ -111,11 +113,17 @@
     });
 
     // A mouse click inside the PDF still moves focus into the frame, and the
-    // viewer keeps Esc for itself from then on. Hand focus back to the dialog
-    // the moment that happens; wheel, drag and text selection in the PDF are
-    // unaffected because they follow the pointer, not focus.
+    // viewer keeps Esc for itself from then on. In Chromium the frame's
+    // toolbar is hidden (toolbar=0 above), so nothing in it needs focus and
+    // we can hand focus straight back to the dialog; wheel, drag and text
+    // selection follow the pointer and are unaffected. Firefox and Safari
+    // keep their toolbar, whose page-number and search fields need focus to
+    // type into, so there the frame keeps focus and Esc closes the dialog
+    // only while focus is outside the PDF. navigator.userAgentData exists in
+    // Chromium browsers only, which is exactly the set that honours toolbar=0.
+    var toolbarHidden = 'userAgentData' in navigator;
     window.addEventListener('blur', function () {
-      if (dialog.open && document.activeElement === frame) {
+      if (toolbarHidden && dialog.open && document.activeElement === frame) {
         setTimeout(function () { if (dialog.open) dialog.focus(); }, 0);
       }
     });
