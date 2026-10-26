@@ -219,55 +219,90 @@ a:focus-visible {
 /* ==========================================================================
    Front page
 
-   The masthead carries the photo, the one-line bio and the link row that
-   replaces the Linktree. Everything below it reuses .section and .role, so
-   the work entries read the same way the CV's roles did.
+   One narrow centred column: photo, name, a line, then the links as bordered
+   rows. The CV row is the only thing styled as a button; the overlay it opens
+   is below. Nothing here is a section, so the column stays short.
    ========================================================================== */
 
-.masthead--front {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  column-gap: var(--space-7);
-  row-gap: var(--space-5);
-  align-items: start;
+main.card {
+  max-width: 24rem;
+  margin-inline: auto;
+  padding-top: clamp(0.5rem, 5vh, 3rem);
 }
-.masthead__photo {
-  width: 7.5rem;
-  height: 7.5rem;
-  border-radius: 50%;
+.card__head {
+  text-align: center;
+  margin-bottom: var(--space-7);
+}
+.card__photo {
+  display: block;
+  width: 10rem;
+  height: 10rem;
+  margin: 0 auto var(--space-5);
+  border-radius: 0.5rem;
   object-fit: cover;
   border: 1px solid var(--line);
   background: var(--panel);
 }
-.masthead__bio {
-  font-family: var(--font-read);
-  font-size: var(--step-3);
-  line-height: 1.5;
+.card__name {
+  font-size: var(--step-4);
+  font-weight: 400;
+  letter-spacing: 0.02em;
   color: var(--hi);
-  max-width: 40ch;
-  margin-top: var(--space-4);
+  line-height: 1.25;
 }
-.masthead__links {
-  margin-top: var(--space-5);
-  font-size: var(--step-1);
-}
-.masthead__links a { color: var(--accent); }
-.masthead__handle { color: var(--dim); font-weight: 400; }
-
-@media (max-width: 45.99rem) {
-  .masthead--front { grid-template-columns: 1fr; }
-  .masthead__photo { width: 5.5rem; height: 5.5rem; }
+.card__line {
+  margin: var(--space-2) auto 0;
+  text-wrap: balance;
+  color: var(--accent);
+  line-height: 1.6;
 }
 
-.role__org a { color: inherit; }
-.role__org a:hover { color: var(--accent); }
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-5);
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--text);
+  text-decoration: none;
+  line-height: 1.5;
+}
+.row:hover { border-color: var(--dim); }
+.row:hover .row__label { color: var(--hi); text-decoration: underline; text-underline-offset: 0.2em; }
+.row__label { color: var(--hi); font-weight: 500; }
+.row__detail { color: var(--dim); font-size: var(--step--1); }
 
-.colophon {
-  margin-top: var(--space-8);
-  border-top: 1px solid var(--line);
-  padding-top: var(--space-5);
+.row--cv {
+  margin-bottom: var(--space-5);
+  padding: 0.9rem 0.9rem;
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.row--cv .row__label { color: var(--accent); font-weight: 700; }
+.row--cv .row__detail { color: var(--accent); opacity: 0.85; }
+.row--cv:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg);
+}
+.row--cv:hover .row__label,
+.row--cv:hover .row__detail { color: var(--bg); text-decoration: none; }
+
+.pointer {
+  margin-top: var(--space-7);
+  text-align: center;
   color: var(--dim);
+  line-height: 1.7;
 }
+.pointer__prefix { color: var(--dim); }
 
 /* ==========================================================================
    CV dialog

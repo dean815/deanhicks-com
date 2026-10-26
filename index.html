@@ -35,65 +35,36 @@
   </script>
 </head>
 <body class="page">
-  <main>
-    <header class="masthead masthead--front">
-      <img class="masthead__photo" src="headshot.jpg" width="469" height="469" alt="Dean Hicks">
-      <div class="masthead__text">
-        <h1 class="masthead__name">Dean Hicks</h1>
-        <p class="masthead__title">Developer relations &amp; technical solutions · formerly Google and Looker</p>
-        <p class="masthead__bio">Twelve years between engineering teams and the developers who build on their platforms, most recently on Looker’s developer relations team at Google. Based in NYC and looking for my next role.</p>
-        <ul role="list" class="masthead__contact masthead__links">
-          <li><a href="https://www.linkedin.com/in/deanhicks" rel="me">LinkedIn</a></li>
-          <li><a href="mailto:dean.h.hicks@gmail.com">Email</a></li>
-          <li><a href="https://github.com/dean815" rel="me">GitHub <span class="masthead__handle">dean815</span></a></li>
-          <li><a href="resume.pdf" data-cv-open>CV</a></li>
-        </ul>
-      </div>
+  <main class="card">
+    <header class="card__head">
+      <img class="card__photo" src="headshot.jpg" width="469" height="469" alt="Dean Hicks">
+      <h1 class="card__name">Dean Hicks</h1>
+      <p class="card__line">Developer relations &amp; technical solutions, formerly Google and Looker</p>
     </header>
 
-    <section class="section" aria-labelledby="work-h">
-      <h2 class="section__heading" id="work-h">Selected work</h2>
+    <!-- A plain link to the PDF by default; the script at the bottom turns it
+         into the overlay only where an embedded PDF renders well. -->
+    <a class="row row--cv" href="resume.pdf" data-cv-open>
+      <span class="row__label">CV</span>
+      <span class="row__detail">PDF · 2 pages</span>
+    </a>
 
-      <article class="role">
-        <header class="role__header">
-          <h3 class="role__org">Looker API 4.0 upgrade and API 3.x deprecation</h3>
-          <p class="role__title">Google, Looker developer platform</p>
-        </header>
-        <p>Project lead for a major-version API upgrade that every Looker API customer had to make. I built usage reporting dashboards from instance metadata so the plan ran on real adoption numbers, wrote the migration guides and code samples, ran office hours for the developer community, and shipped the tiered feature-flag rollout system that carried out the deprecation inside the product.</p>
-      </article>
+    <ul role="list" class="rows">
+      <li><a class="row" href="https://www.linkedin.com/in/deanhicks" rel="me">
+        <span class="row__label">LinkedIn</span>
+        <span class="row__detail">/in/deanhicks</span>
+      </a></li>
+      <li><a class="row" href="mailto:dean.h.hicks@gmail.com">
+        <span class="row__label">Email</span>
+        <span class="row__detail">dean.h.hicks@gmail.com</span>
+      </a></li>
+      <li><a class="row" href="https://github.com/dean815" rel="me">
+        <span class="row__label">GitHub</span>
+        <span class="row__detail">dean815</span>
+      </a></li>
+    </ul>
 
-      <article class="role">
-        <header class="role__header">
-          <h3 class="role__org">Looker API documentation migration</h3>
-          <p class="role__title">Google, Looker API docs</p>
-        </header>
-        <p>Led the move of Looker’s API documentation and developer tooling from an unofficial GitHub repo and a Firebase site onto Google Cloud Docsite. Restructured the content so people could find answers, improved version control, and kept the docs formats in parity.</p>
-      </article>
-
-      <article class="role">
-        <header class="role__header">
-          <h3 class="role__org">Looker’s open-source GitHub org</h3>
-          <p class="role__title">Google, open source</p>
-        </header>
-        <p>Maintained 300+ repositories, including sdk-codegen and the embed SDK: issue reports, community contributions, dependency changes, and prototypes that developers used as starting points for their own projects.</p>
-      </article>
-    </section>
-
-    <section class="section" aria-labelledby="writing-h">
-      <h2 class="section__heading" id="writing-h">Writing</h2>
-
-      <article class="role">
-        <header class="role__header">
-          <h3 class="role__org"><a href="https://docs.cloud.google.com/looker/docs/implementing-row-level-segmentation-in-embeds">Implementing row-level segmentation for embedded Looker content</a></h3>
-          <p class="role__title">Google Cloud documentation</p>
-        </header>
-        <p>Co-authored guide to signed embed authentication and user attributes: how to restrict what each user sees in an embedded dashboard by who they are.</p>
-      </article>
-    </section>
-
-    <footer class="colophon">
-      <p>Dean Hicks · New York · <a href="mailto:dean.h.hicks@gmail.com">dean.h.hicks@gmail.com</a></p>
-    </footer>
+    <p class="pointer"><span class="pointer__prefix">Writing ·</span> <a href="https://docs.cloud.google.com/looker/docs/implementing-row-level-segmentation-in-embeds">Implementing row-level segmentation for embedded Looker content</a></p>
   </main>
 
   <!-- CV overlay. The CV link above is a plain link to resume.pdf; the script
