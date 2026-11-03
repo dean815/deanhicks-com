@@ -1,8 +1,9 @@
 /* ==========================================================================
    deanhicks.com
 
-   One face, Bricolage Grotesque, does the whole page: a heavy, wide name,
-   a quiet line under it, and plain links. The photo takes the other half
+   Bricolage Grotesque sets the page; the name alone is Georgia, in the
+   slate blue the CV button shares. Georgia ships with Windows and macOS,
+   so it is named, never hosted (Microsoft's font FAQ forbids serving it). The photo takes the other half
    of the viewport. The CV lives in a native <dialog> further down.
 
    The font is served from fonts/ rather than a CDN, so it adds no external
@@ -24,14 +25,14 @@
    Tokens
 
    Near-neutral: white paper with near-black ink, and the inverse in dark
-   mode. The accent is the ink itself, so the one filled button on the page
-   is the only solid block. Every text/background pair in both palettes
-   clears the WCAG AA 4.5:1 floor; the lowest is --dim at 5.3:1 (light) and
-   7.3:1 (dark).
+   mode, with one slate blue for the name and the CV button. Every
+   text/background pair in both palettes clears the WCAG AA 4.5:1 floor;
+   the lowest is --dim at 5.3:1 (light) and 7.3:1 (dark).
    ========================================================================== */
 
 :root {
   --font-sans: "Bricolage Grotesque", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-name: Georgia, "Times New Roman", serif;
 
   --space-3: 0.65rem;  --space-5: 1.35rem;  --space-6: 1.5rem;
 
@@ -45,6 +46,9 @@
   --dim:    #6b6b6b;   /*  5.3:1 */
   --accent: #141414;
   --line:   #e3e3e3;
+  --brand:       #476777;   /* name on --bg, and the CV button fill: 6.0:1 */
+  --brand-hover: #3a5563;
+  --brand-name:  #476777;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -56,6 +60,9 @@
     --dim:    #9a9a9a;  /*  7.3:1 */
     --accent: #f5f5f5;
     --line:   #2a2a2a;
+    /* The fill keeps white text at 6.0:1 in either mode; only the name,
+       which sits on --bg, lightens (#476777 would be 3.2:1 here). */
+    --brand-name:  #7fa0b2;   /* 6.9:1 */
   }
 }
 
@@ -130,11 +137,11 @@ main.split {
 }
 .split__name {
   font-size: clamp(2.4rem, 1.6rem + 3vw, 4.2rem);
+  font-family: var(--font-name);
   font-weight: 800;
   letter-spacing: -0.03em;
   line-height: 1;
-  color: var(--hi);
-  font-variation-settings: "opsz" 96;
+  color: var(--brand-name);
 }
 .split__line {
   margin-top: 1rem;
@@ -157,12 +164,12 @@ main.split {
   align-items: baseline;
   gap: 0.6rem;
   padding: 0.8rem 1.2rem;
-  background: var(--hi);
-  color: var(--bg);
+  background: var(--brand);
+  color: #ffffff;
   font-weight: 500;
   text-decoration: none;
 }
-.button:hover { background: var(--text); }
+.button:hover { background: var(--brand-hover); }
 .button__detail { font-size: 0.8rem; opacity: 0.7; }
 .split__links {
   display: flex;
