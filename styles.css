@@ -1,25 +1,16 @@
 /* ==========================================================================
    deanhicks.com
 
-   Bricolage Grotesque sets the page; the name alone is Georgia, in the
-   slate blue the CV button shares. Georgia ships with Windows and macOS,
-   so it is named, never hosted (Microsoft's font FAQ forbids serving it). The photo takes the other half
-   of the viewport. The CV lives in a native <dialog> further down.
+   Avenir Next sets the page and Athelas sets the name, in the slate blue
+   the CV button shares. Both are Apple system fonts: Apple's license lets
+   a page name them but not serve them, so they render on Apple devices
+   and everyone else gets the next font in each stack. The photo takes the
+   other half of the viewport. The CV lives in a native <dialog> further
+   down.
 
-   The font is served from fonts/ rather than a CDN, so it adds no external
-   request; the only one the page makes is the analytics beacon.
+   No fonts are hosted, so the page's only external request is the
+   analytics beacon.
    ========================================================================== */
-
-@font-face {
-  font-family: "Bricolage Grotesque";
-  src: url("fonts/bricolage-grotesque-latin.woff2") format("woff2");
-  font-weight: 200 800;          /* variable: weight and optical size */
-  font-style: normal;
-  font-display: swap;
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
-                 U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC,
-                 U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
 
 /* ==========================================================================
    Tokens
@@ -31,8 +22,10 @@
    ========================================================================== */
 
 :root {
-  --font-sans: "Bricolage Grotesque", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-name: Georgia, "Times New Roman", serif;
+  /* Fallbacks for non-Apple devices: Segoe UI (Windows) and Roboto
+     (Android) stand in for Avenir Next; Georgia stands in for Athelas. */
+  --font-sans: "Avenir Next", Avenir, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-name: Athelas, Georgia, "Times New Roman", serif;
 
   --space-3: 0.65rem;  --space-5: 1.35rem;  --space-6: 1.5rem;
 
@@ -139,13 +132,13 @@ main.split {
   font-size: clamp(2.4rem, 1.6rem + 3vw, 4.2rem);
   font-family: var(--font-name);
   font-weight: 800;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
   line-height: 1;
   color: var(--brand-name);
 }
 .split__line {
   margin-top: 1rem;
-  max-width: 30ch;
+  max-width: 40ch;
   color: var(--dim);
   font-size: 1.1rem;
 }
@@ -153,7 +146,7 @@ main.split {
 .split__actions {
   grid-column: 1;
   grid-row: 2;
-  padding: 2rem clamp(1.5rem, 6vw, 5rem) 0;
+  padding: 1rem clamp(1.5rem, 6vw, 5rem) 0;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -188,7 +181,7 @@ main.split {
   grid-column: 1;
   grid-row: 3;
   align-self: start;
-  padding: 3rem clamp(1.5rem, 6vw, 5rem) clamp(2rem, 6vw, 5rem);
+  padding: 1rem clamp(1.5rem, 6vw, 5rem) clamp(2rem, 6vw, 5rem);
   font-size: 0.85rem;
   color: var(--dim);
 }
