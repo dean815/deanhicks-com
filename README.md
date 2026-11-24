@@ -3,18 +3,17 @@
 Source for my personal front page: who I am, a line on what I do, my CV, and
 the places to find me. It replaces a Linktree.
 
-One HTML file, one stylesheet, one font file, one photo, one PDF. No framework,
-no build step, no package manager. The only external request is the Cloudflare
-Web Analytics beacon; everything else the page needs is served from this
-repository.
+One HTML file, one stylesheet, one photo, one PDF. No framework, no build
+step, no package manager, and no hosted fonts. The only external request is
+the Cloudflare Web Analytics beacon; everything else the page needs is served
+from this repository.
 
 ## Files
 
 | | |
 |---|---|
 | `index.html` | The entire site: content, the CV overlay, its script, and `Person` structured data |
-| `styles.css` | Design tokens, layout, light and dark palettes |
-| `fonts/` | Bricolage Grotesque, subset to Latin, plus its OFL license |
+| `styles.css` | Design tokens, font stacks, layout, light and dark palettes |
 | `headshot.jpg` | The photo, 1086×1448 |
 | `resume.pdf` | The CV, opened in an overlay on desktop and directly on phones |
 | `CNAME` | Binds the custom domain for GitHub Pages |
@@ -22,15 +21,16 @@ repository.
 ## Design
 
 Two halves on a wide screen: text on the left, the photo bleeding to the right
-edge. On a phone the photo sits on top and the text stacks under it. One face,
-Bricolage Grotesque, does everything, from the heavy name down to the small
-"Writing" label.
+edge. On a phone the photo sits on top and the text stacks under it. Avenir
+Next sets the page, from the tagline down to the small "Writing" label, and
+Athelas sets the name.
 
 Colour and spacing are CSS custom properties defined once in `:root`, with a
 `prefers-color-scheme: dark` block redefining the colour tokens. The palette is
-near-neutral: white paper with near-black ink, inverted in dark mode, and the
-ink itself is the only accent, so the CV button is the one solid block on the
-page. Every text/background pair in both palettes clears the WCAG AA 4.5:1
+near-neutral: white paper with near-black ink, inverted in dark mode, plus one
+slate blue (`#476777`) shared by the name and the CV button, which is the one
+solid block on the page. In dark mode the name lightens to `#7fa0b2` so it
+stays readable on the dark background. Every text/background pair in both palettes clears the WCAG AA 4.5:1
 floor; the lowest is 5.3:1 in light and 7.3:1 in dark.
 
 ## The CV overlay
@@ -44,13 +44,13 @@ swallow keystrokes once focused, Esc included; the "Open the PDF" link in the
 dialog's bar is the keyboard route to the full viewer. Phones, tablets and
 browsers without an inline viewer never see the dialog and just get the PDF.
 
-## Font
+## Fonts
 
-Bricolage Grotesque is self-hosted as a single variable `.woff2` (weight and
-optical size axes, Latin subset, about 75 KB) rather than loaded from a CDN,
-which is what keeps the external-request count at one. It is licensed under the
-SIL Open Font License; the license text ships alongside it in `fonts/` as that
-requires.
+Avenir Next and Athelas are Apple system fonts. Apple's license lets a page
+name them but not serve them, so nothing is self-hosted: they render on Apple
+devices, and everyone else gets the next font in each stack (Segoe UI or Roboto
+for Avenir Next, Georgia for Athelas). With no font files to fetch, the
+external-request count stays at one.
 
 ## Deployment
 
